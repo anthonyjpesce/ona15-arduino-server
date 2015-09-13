@@ -23,4 +23,4 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.app_directories.Loader',
 )
 STATIC_URL = '/static/'
-WSGI_APPLICATION = '{{ project_name }}.wsgi_dev.application'
+WSGI_APPLICATION = 'project.wsgi_dev.application'
