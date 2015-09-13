@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.utils import timezone
 
 class Signal(models.Model):
     """
@@ -15,7 +15,7 @@ class Signal(models.Model):
     arduino_number = models.CharField(
         blank=True, null=True, choices=ARDUINO_NUMBER_CHOICES, max_length=2,
     )
-    timestamp = models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateTimeField(default=timezone.now())
     voltage = models.DecimalField(max_digits=4, decimal_places=2)
 
     class Meta:
