@@ -12,8 +12,8 @@ class Signal(models.Model):
         ('4', '4'),
         ('5', '5')
     )
-    arduino_number = models.CharacterField(
-        blank=True, null=True, choices=ARDUINO_NUMBER_CHOICES
+    arduino_number = models.CharField(
+        blank=True, null=True, choices=ARDUINO_NUMBER_CHOICES, max_length=2,
     )
     timestamp = models.DateTimeField(auto_now_add=True)
     voltage = models.DecimalField(max_digits=4, decimal_places=2)
