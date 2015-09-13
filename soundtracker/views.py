@@ -1,3 +1,4 @@
+import calculate
 from django.http import HttpResponse
 from soundtracker.models import Signal
 from django.views.generic import TemplateView
@@ -30,6 +31,22 @@ def signal_submit(request):
 
     # We're good, return a 200 response
     return HttpResponse(status=200)
+
+
+def get_signal_stats():
+    """
+    Calculate various stats about the signals in the database.
+    We'll want:
+    1) number of signals sent
+    2) Average volts
+    
+    """
+    signals = Signal.objects.all()
+    voltages = list(signals.values_list('voltage').order_by('voltage'))
+    mean_voltage = calculate.mean(voltages)
+    std_dev = calculate.standard_deviation(voltages)
+
+    return mean_voltage, std_dev
 
 
 class IndexView(TemplateView):
