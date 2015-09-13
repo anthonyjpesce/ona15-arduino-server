@@ -1,3 +1,20 @@
 from django.db import models
 
-# Create your models here.
+
+class Signal(models.Model):
+    """
+    A transmission from our robot
+    """
+    ARDUINO_NUMBER_CHOICES = (
+        ('1', '1'),
+        ('2', '2'),
+        ('3', '3'),
+        ('4', '4'),
+        ('5', '5')
+    )
+    arduino_number = models.CharacterField(
+        blank=True, null=True, choices=ARDUINO_NUMBER_CHOICES
+    )
+    timestamp = models.DateTimeField(auto_now_add=True)
+    voltage = models.DecimalField(max_digits=4, decimal_places=2)
+

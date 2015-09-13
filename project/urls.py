@@ -9,6 +9,8 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     # This is the URL Varnish will ping to check the server health.
     url(r'^app_status/$', 'toolbox.views.app_status', name='status'),
+    # All the URLs from our signal project
+    url(r'^', include('soundtracker.urls')),
 )
 
 if settings.DEBUG:
