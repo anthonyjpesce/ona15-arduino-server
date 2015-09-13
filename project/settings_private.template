@@ -1,4 +1,4 @@
-SECRET_KEY = "RUN fab generatesecret to get a real secret key!"
+SECRET_KEY = "RUN fab makesecret to get a real secret key!"
 
 # Amazon Web Services
 AWS_ACCESS_KEY_ID = '' # The shorter one
