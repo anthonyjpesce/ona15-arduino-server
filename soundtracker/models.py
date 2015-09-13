@@ -18,3 +18,8 @@ class Signal(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     voltage = models.DecimalField(max_digits=4, decimal_places=2)
 
+    class Meta:
+        ordering = ('-timestamp', 'pk')
+
+    def __unicode__(self):
+        "Robot %s: %s" % (self.arduino_number, str(self.timestamp))
