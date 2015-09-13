@@ -77,6 +77,7 @@ INSTALLED_APPS = (
     'django.contrib.sitemaps',
     'toolbox',
     'greeking',
+    'soundtracker',
 )
 
 # Logging
@@ -88,16 +89,12 @@ LOGGING = {
     'filters': {
         'require_debug_false': {
             '()': 'django.utils.log.RequireDebugFalse'
-        },
-        'skip_suspicious_operations': {
-            '()': 'django.utils.log.CallbackFilter',
-            'callback': skip_suspicious_operations,
-         },
+        }
     },
     'handlers': {
         'mail_admins': {
             'level': 'ERROR',
-            'filters': ['require_debug_false', 'skip_suspicious_operations'],
+            'filters': ['require_debug_false',],
             'class': 'django.utils.log.AdminEmailHandler'
         },
         'null': {
@@ -138,16 +135,11 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
         },
-        'boundaries': {
+        'soundtracker': {
             'handlers': ['console', 'logfile'],
             'level': 'DEBUG',
             'propagate': True,
-        },
-        'switrs': {
-            'handlers': ['console', 'logfile'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
+        }
     }
 }
 

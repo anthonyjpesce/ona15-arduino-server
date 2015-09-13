@@ -9,7 +9,6 @@ pep8
 psycopg2
 pycrypto
 pyflakes
-pyinotify
 python-coveralls
 python-memcached
 pytz
