@@ -1,8 +1,10 @@
 from django.http import HttpResponse
 from soundtracker.models import Signal
 from django.views.generic import TemplateView
+from django.views.decorators.csrf import csrf_exempt
 
 
+@csrf_exempt
 def signal_submit(request):
     """
     Takes a post request from an Arduino and adds the reading to
