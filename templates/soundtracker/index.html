@@ -63,22 +63,24 @@
     </div>
 
     <script>
-        var margin = {top:0, right:0, bottom:15, left:20};
+        var margin = {top:10, right:0, bottom:30, left:50};
         var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S+00:00").parse;
 
 
         function drawChart(id, data) {
             var chart = document.getElementById('robot_' + id + '_chart'),
-                w = chart.offsetWidth,
-                h = 300,
+                w = chart.offsetWidth - margin.left - margin.right ,
+                h = 300 - margin.top - margin.bottom,
                 prevChartWidth = 0,
                 transitionDuration = 500;
 
             var svg = d3.select(chart)
                         .append("svg")
-                        .attr("width", w)
-                        .attr("height", h);
-
+                        .attr("width", w + margin.left + margin.right)
+                        .attr("height", h + margin.top + margin.bottom )
+                        .append("g")
+                            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            
             var x = d3.time.scale()
                 .range([0, w]);
 
@@ -115,7 +117,8 @@
                 .call(yAxis)
               .append("text")
                 .attr("transform", "rotate(-90)")
-                .attr("y", 6)
+                .attr("y", -45)
+                .attr("x", -100)
                 .attr("dy", ".71em")
                 .style("text-anchor", "end")
                 .text("Voltage");
@@ -125,15 +128,12 @@
                 .attr("class", "line")
                 .attr("d", line);
 
-            console.log("drawing chart" +  id);
         }
 
         function getChartJson(id) {
             d3.json("data/" + id + "/signals.json", function(error, json) {
-
               var data = json;
 
-              console.log(data);
               drawChart(id, data);
             });
         }
