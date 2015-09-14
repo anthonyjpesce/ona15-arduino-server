@@ -1,6 +1,6 @@
+import json
 import calculate
 from django.http import HttpResponse
-from django.core import serializers
 from soundtracker.models import Signal
 from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
@@ -52,7 +52,8 @@ def get_signal_stats():
 
 def get_signal_json(request):
     signals = Signal.objects.all()
-    response = serializers.serialize('json', signals)
+
+    response = json.dumps([s.as_dict() for s in signals])
 
     return HttpResponse(response, content_type='text/json')
 

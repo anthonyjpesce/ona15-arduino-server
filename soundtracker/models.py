@@ -18,6 +18,13 @@ class Signal(models.Model):
     timestamp = models.DateTimeField(default=timezone.now())
     voltage = models.DecimalField(max_digits=4, decimal_places=2)
 
+    def as_dict(self):
+        return {
+            "no": self.arduino_number,
+            "ts": self.timestamp.isoformat(),
+            "v": str(self.voltage)
+        }
+
     class Meta:
         ordering = ('-timestamp', 'pk')
 

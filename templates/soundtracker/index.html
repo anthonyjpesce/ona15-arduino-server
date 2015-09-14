@@ -21,13 +21,23 @@
     </div>
     <div class="container">
         <div class="row">
+            <div class="span12">
+                <h2>All signals received</h2>
+            </div>
+        </div>
+        <div class="row">
             <h2>Robot 1</h2>
             <div id="robot_1_chart"></div>
         </div>
     </div>
 
     <script>
+        d3.json("data/signals.json", function(error, json) {
+          if (error) return console.warn(error);
+          data = json;
 
+          console.log(json);
+        });
 
     </script>
 </body>
