@@ -1,5 +1,7 @@
 import json
+import datetime
 import calculate
+from django.utils import timezone
 from django.http import HttpResponse
 from soundtracker.models import Signal
 from django.views.generic import TemplateView
@@ -40,7 +42,6 @@ def get_signal_stats():
     We'll want:
     1) number of signals sent
     2) Average volts
-    
     """
     signals = Signal.objects.all()
     voltages = list(signals.values_list('voltage').order_by('voltage'))
@@ -51,7 +52,13 @@ def get_signal_stats():
 
 
 def get_signal_json(request, arduino_id=1):
-    signals = Signal.objects.filter(arduino_number=arduino_id)
+    """
+    Get all signals over the last 10 minutes
+    """
+    ten_minutes = timezone.localtime(timezone.now()) - datetime.timedelta(minutes=10)
+    signals = Signal.objects.filter(arduino_number=arduino_id,
+                                    timestamp__lt=timezone.localtime(timezone.now()),
+                                    timestamp__gte=ten_minutes)
     response = json.dumps([s.as_dict() for s in signals])
 
     return HttpResponse(response, content_type='text/json')

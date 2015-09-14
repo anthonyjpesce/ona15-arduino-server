@@ -41,31 +41,35 @@
     <div class="container">
         <div class="row">
             <h2>Robot 1</h2>
+            <p id="robot_1_stats"></p>
             <div id="robot_1_chart"></div>
         </div>
         <div class="row">
             <h2>Robot 2</h2>
+            <p id="robot_2_stats"></p>
             <div id="robot_2_chart"></div>
         </div>
         <div class="row">
             <h2>Robot 3</h2>
+            <p id="robot_3_stats"></p>
             <div id="robot_3_chart"></div>
         </div>
         <div class="row">
             <h2>Robot 4</h2>
+            <p id="robot_4_stats"></p>
             <div id="robot_4_chart"></div>
         </div>
         <div class="row">
             <h2>Robot 5</h2>
+            <p id="robot_5_stats"></p>
             <div id="robot_5_chart"></div>
         </div>
 
     </div>
 
     <script>
-        var margin = {top:10, right:0, bottom:30, left:50};
+        var margin = {top:10, right:20, bottom:30, left:50};
         var parseDate = d3.time.format("%Y-%m-%d %H:%M:%S").parse;
-
 
         function drawChart(id, data) {
             var chart = document.getElementById('robot_' + id + '_chart'),
@@ -128,12 +132,22 @@
                 .attr("class", "line")
                 .attr("d", line);
 
+            // Fill in some summary stats about each Arduino
+            var statline = document.getElementById("robot_" + id + "_stats"),
+                count = data.length,
+                extent = d3.extent(data, function(d) { return d.v; });
+
+            statline.innerHTML = "<strong>" + count + "</strong> data points in the last 10 minutes.<br>";
+            statline.innerHTML += "Maximum recorded value: <strong>" + extent[1] + "</strong> volts<br>";
+            statline.innerHTML += "Minimum recorded value: <strong>" + extent[0] + "</strong> volts<br>";
+
+
         }
 
         function getChartJson(id) {
             d3.json("data/" + id + "/signals.json", function(error, json) {
               var data = json;
-              console.log(data);
+
               drawChart(id, data);
             });
         }
