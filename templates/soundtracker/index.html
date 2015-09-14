@@ -132,7 +132,11 @@
                 .attr("class", "line")
                 .attr("d", line);
 
+            calculateStats(data, id);
 
+        }
+
+        function calculateStats(data, id) {
             // map voltages to an array so we're not constantly recalculating
             var values = d3.entries(data).map(function(d){ return d.value.v; });
 
@@ -148,9 +152,6 @@
             statline.innerHTML += "Minimum recorded value: <strong>" + extent[0] + "</strong> volts.<br>";
             statline.innerHTML += "Average output: <strong>" + avg.toFixed(2) + "</strong> volts.<br>";
             statline.innerHTML += "Standard deviation: <strong>" + deviation.toFixed(2) + "</strong>";
-            
-
-
         }
 
         function getChartJson(id) {
