@@ -132,14 +132,23 @@
                 .attr("class", "line")
                 .attr("d", line);
 
+
+            // map voltages to an array so we're not constantly recalculating
+            var values = d3.entries(data).map(function(d){ return d.value.v; });
+
             // Fill in some summary stats about each Arduino
             var statline = document.getElementById("robot_" + id + "_stats"),
                 count = data.length,
-                extent = d3.extent(data, function(d) { return d.v; });
+                extent = d3.extent(values),
+                avg = d3.mean(values),
+                deviation = d3.deviation(values);
 
             statline.innerHTML = "<strong>" + count + "</strong> data points in the last 10 minutes.<br>";
-            statline.innerHTML += "Maximum recorded value: <strong>" + extent[1] + "</strong> volts<br>";
-            statline.innerHTML += "Minimum recorded value: <strong>" + extent[0] + "</strong> volts<br>";
+            statline.innerHTML += "Maximum recorded value: <strong>" + extent[1] + "</strong> volts.<br>";
+            statline.innerHTML += "Minimum recorded value: <strong>" + extent[0] + "</strong> volts.<br>";
+            statline.innerHTML += "Average output: <strong>" + avg.toFixed(2) + "</strong> volts.<br>";
+            statline.innerHTML += "Standard deviation: <strong>" + deviation.toFixed(2) + "</strong>";
+            
 
 
         }
