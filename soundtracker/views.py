@@ -1,5 +1,6 @@
 import calculate
 from django.http import HttpResponse
+from django.core import serializers
 from soundtracker.models import Signal
 from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
@@ -49,6 +50,13 @@ def get_signal_stats():
     return mean_voltage, std_dev
 
 
+def get_signal_json(request):
+    signals = Signal.objects.all()
+    response = serializers.serialize('json', signals)
+
+    return HttpResponse(response, content_type='text/json')
+
+
 class IndexView(TemplateView):
     """
     The homepage and its many doodads.
@@ -57,4 +65,7 @@ class IndexView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
+
+        context["voltages"] = Signal.objects.all().values_list('voltage')
+
         return context

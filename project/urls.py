@@ -4,7 +4,6 @@ from django.conf.urls import patterns, include, url
 from django.views.static import serve as static_serve
 from django.contrib.admin.views.decorators import staff_member_required
 
-
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     # This is the URL Varnish will ping to check the server health.
