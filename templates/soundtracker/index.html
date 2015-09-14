@@ -7,6 +7,25 @@
     <title>#ONA15bot</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <style type="text/css">
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
+
+    .x.axis path {
+      display: none;
+    }
+
+    .line {
+      fill: none;
+      stroke: steelblue;
+      stroke-width: 1.5px;
+    }
+    </style>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
@@ -21,23 +40,109 @@
     </div>
     <div class="container">
         <div class="row">
-            <div class="span12">
-                <h2>All signals received</h2>
-            </div>
-        </div>
-        <div class="row">
             <h2>Robot 1</h2>
             <div id="robot_1_chart"></div>
         </div>
+        <div class="row">
+            <h2>Robot 2</h2>
+            <div id="robot_2_chart"></div>
+        </div>
+        <div class="row">
+            <h2>Robot 3</h2>
+            <div id="robot_3_chart"></div>
+        </div>
+        <div class="row">
+            <h2>Robot 4</h2>
+            <div id="robot_4_chart"></div>
+        </div>
+        <div class="row">
+            <h2>Robot 5</h2>
+            <div id="robot_5_chart"></div>
+        </div>
+
     </div>
 
     <script>
-        d3.json("data/signals.json", function(error, json) {
-          if (error) return console.warn(error);
-          data = json;
+        var margin = {top:0, right:0, bottom:15, left:20};
+        var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S+00:00").parse;
 
-          console.log(json);
-        });
+
+        function drawChart(id, data) {
+            var chart = document.getElementById('robot_' + id + '_chart'),
+                w = chart.offsetWidth,
+                h = 300,
+                prevChartWidth = 0,
+                transitionDuration = 500;
+
+            var svg = d3.select(chart)
+                        .append("svg")
+                        .attr("width", w)
+                        .attr("height", h);
+
+            var x = d3.time.scale()
+                .range([0, w]);
+
+            var y = d3.scale.linear()
+                .range([h, 0]);
+
+            var xAxis = d3.svg.axis()
+                .scale(x)
+                .orient("bottom");
+
+            var yAxis = d3.svg.axis()
+                .scale(y)
+                .orient("left");
+
+            var line = d3.svg.line()
+                .x(function(d) { return x(d.ts); })
+                .y(function(d) { return y(d.v); });
+
+            data.forEach(function(d){
+                d.ts = parseDate(d.ts);
+                d.v = parseFloat(d.v);
+            });
+
+            x.domain(d3.extent(data, function(d) { return d.ts; }));
+            y.domain([0,3]);
+
+            svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + h + ")")
+                .call(xAxis);
+
+            svg.append("g")
+                .attr("class", "y axis")
+                .call(yAxis)
+              .append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 6)
+                .attr("dy", ".71em")
+                .style("text-anchor", "end")
+                .text("Voltage");
+
+            svg.append("path")
+                .datum(data)
+                .attr("class", "line")
+                .attr("d", line);
+
+            console.log("drawing chart" +  id);
+        }
+
+        function getChartJson(id) {
+            d3.json("data/" + id + "/signals.json", function(error, json) {
+
+              var data = json;
+
+              console.log(data);
+              drawChart(id, data);
+            });
+        }
+
+        getChartJson(1);
+        getChartJson(2);
+        getChartJson(3);
+        getChartJson(4);
+        getChartJson(5);
 
     </script>
 </body>

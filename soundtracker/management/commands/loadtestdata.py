@@ -11,6 +11,9 @@ class Command(BaseCommand):
     help = "Load test data into the DB. Randomly assigns each voltage in the list to an Arduino."
 
     def handle(self, *args, **options):
+        # Delete current data
+        Signal.objects.all().delete()
+
         filename = 'test_data.txt'
         data_dir = os.path.join(settings.BASE_DIR, 'soundtracker', 'data')
         signals_list = []

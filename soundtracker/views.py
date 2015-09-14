@@ -50,9 +50,8 @@ def get_signal_stats():
     return mean_voltage, std_dev
 
 
-def get_signal_json(request):
-    signals = Signal.objects.all()
-
+def get_signal_json(request, arduino_id=1):
+    signals = Signal.objects.filter(arduino_number=arduino_id)
     response = json.dumps([s.as_dict() for s in signals])
 
     return HttpResponse(response, content_type='text/json')
