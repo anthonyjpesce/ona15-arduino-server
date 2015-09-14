@@ -64,7 +64,7 @@
 
     <script>
         var margin = {top:10, right:0, bottom:30, left:50};
-        var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S+00:00").parse;
+        var parseDate = d3.time.format("%Y-%m-%d %H:%M:%S").parse;
 
 
         function drawChart(id, data) {
@@ -133,7 +133,7 @@
         function getChartJson(id) {
             d3.json("data/" + id + "/signals.json", function(error, json) {
               var data = json;
-
+              console.log(data);
               drawChart(id, data);
             });
         }

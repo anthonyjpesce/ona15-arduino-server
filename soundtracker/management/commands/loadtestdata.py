@@ -3,6 +3,7 @@ import csv
 import random
 import datetime
 from django.conf import settings
+from django.utils import timezone
 from soundtracker.models import Signal
 from django.core.management.base import BaseCommand, CommandError
 
@@ -18,8 +19,8 @@ class Command(BaseCommand):
         data_dir = os.path.join(settings.BASE_DIR, 'soundtracker', 'data')
         signals_list = []
 
-        # Setting start time to an arbitraty time in the past
-        dummy_starttime = datetime.datetime(2015, 9, 12, 22, 16, 8)
+        # Setting start time to fifteen minutes ago
+        dummy_starttime = timezone.localtime(timezone.now()) - datetime.timedelta(minutes=15)
         time = dummy_starttime
 
         with open(os.path.join(data_dir, filename)) as infile:
