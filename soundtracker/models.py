@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 
+
 class Signal(models.Model):
     """
     A transmission from our robot
@@ -29,4 +30,4 @@ class Signal(models.Model):
         ordering = ('-timestamp', 'pk')
 
     def __unicode__(self):
-        "Robot %s: %s" % (self.arduino_number, str(self.timestamp))
+        return "Robot %s: %s" % (self.arduino_number, str(self.timestamp))

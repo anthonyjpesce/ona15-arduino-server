@@ -31,13 +31,17 @@
         opacity: 0.9;
     }
     
-    .std-dev {
+    line.std-dev {
         fill: none;
         stroke: steelblue;
         stroke-opacity: 0.5;
         stroke-width: 1;
         stroke-dasharray: 10,10;
  
+    }
+    rect.std-dev-range {
+        fill: #d7d7d7;
+        fill-opacity: 0.25;
     }
 
     </style>
@@ -148,6 +152,34 @@
 
             buildSummaryGraf(stats, id);
 
+            // Plot standard deviation above and below the mean
+            var stdDev = svg.append("g");
+
+            // Shaded rectangle between the deviations
+            stdDev.append("rect")
+                .attr("class", "std-dev-range")
+                .attr("x", 0)
+                .attr("y", y(stats.avg + stats.deviation))
+                .attr("width", w)
+                .attr("height", function(){
+                    return y(stats.avg - stats.deviation) - y(stats.avg + stats.deviation) ;
+                })
+
+            // Lines above and below the rect
+            stdDev.append("line")
+                .attr("class", "std-dev")
+                .attr("x1", 0)
+                .attr("x2", w)
+                .attr("y1", y(stats.avg - stats.deviation))
+                .attr("y2", y(stats.avg - stats.deviation));
+
+            stdDev.append("line")
+                .attr("class", "std-dev")
+                .attr("x1", 0)
+                .attr("x2", w)
+                .attr("y1", y(stats.avg + stats.deviation))
+                .attr("y2", y(stats.avg + stats.deviation));
+
             // Baseline of average voltage for the period
             var baseline = svg.append("g").attr("class","baseline");
 
@@ -157,7 +189,7 @@
                         .style("fill", "#F00")
                         .style("text-anchor", "middle")
                         .style("opacity", 0)
-                        .attr("y", y(stats.avg))
+                        .attr("y", y(stats.avg + stats.deviation))
                         .attr("transform", "translate(0,-5)"); 
 
             baseline.append("line")
@@ -178,23 +210,6 @@
                     text.style("opacity", 0);
                 });
 
-
-            // Plot standard deviation above and below the mean
-            var stdDev = svg.append("g");
-
-            stdDev.append("line")
-                .attr("class", "std-dev")
-                .attr("x1", 0)
-                .attr("x2", w)
-                .attr("y1", y(stats.avg - stats.deviation))
-                .attr("y2", y(stats.avg - stats.deviation));
-
-            stdDev.append("line")
-                .attr("class", "std-dev")
-                .attr("x1", 0)
-                .attr("x2", w)
-                .attr("y1", y(stats.avg + stats.deviation))
-                .attr("y2", y(stats.avg + stats.deviation));
 
             // Finally, plot the line
             svg.append("path")
