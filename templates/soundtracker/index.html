@@ -90,8 +90,9 @@
     <script>
         var margin = {top:10, right:20, bottom:30, left:50};
         var parseDate = d3.time.format("%Y-%m-%d %H:%M:%S").parse;
+        var updateInterval = 15000;
 
-        function drawChart(id, data) {
+        function drawChart(id, data, update) {
             var chart = document.getElementById('robot_' + id + '_chart'),
                 w = chart.offsetWidth - margin.left - margin.right ,
                 h = 300 - margin.top - margin.bottom,
@@ -212,10 +213,37 @@
 
 
             // Finally, plot the line
-            svg.append("path")
-                .datum(data)
-                .attr("class", "line")
-                .attr("d", line);
+            if (update) {
+                console.log("updating chart" + id);
+                svg.append("path")
+                    .datum(data)
+                    .attr("transform", "translate(" + x(1) + ")")
+                    .attr("class", "line")
+                    .attr("d", line)
+                    .transition()
+                    .ease("linear")
+                    .duration(250)
+                    .attr("transform", "translate(" + x(0) + ")"); 
+            } else {
+                console.log("drawing initial chart" + id);
+                svg.append("path")
+                    .datum(data)
+                    .attr("class", "line")
+                    .attr("d", line);   
+            }
+
+
+            function updateData() {
+                getChartJson(1, true);
+                getChartJson(2, true);
+                getChartJson(3, true);
+                getChartJson(4, true);
+                getChartJson(5, true); 
+            }
+
+            window.setInterval(function(){
+              updateData();
+            }, updateInterval);
 
         }
 
@@ -240,19 +268,25 @@
             statline.innerHTML += "Standard deviation: <strong>" + stats.deviation.toFixed(2) + "</strong>";
         }
 
-        function getChartJson(id) {
+        function getChartJson(id, update) {
             d3.json("data/" + id + "/signals.json", function(error, json) {
               var data = json;
 
-              drawChart(id, data);
+              drawChart(id, data, update);
+              
             });
         }
 
-        getChartJson(1);
-        getChartJson(2);
-        getChartJson(3);
-        getChartJson(4);
-        getChartJson(5);
+    function init() {
+        getChartJson(1, false);
+        getChartJson(2, false);
+        getChartJson(3, false);
+        getChartJson(4, false);
+        getChartJson(5, false);        
+    }
+
+    init();
+
 
     </script>
 </body>
