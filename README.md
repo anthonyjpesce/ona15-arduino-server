@@ -1,7 +1,7 @@
 #ONA15bot
 ---------
 
-Robots[http://www.slate.com/blogs/future_tense/2014/03/17/quakebot_los_angeles_times_robot_journalist_writes_article_on_la_earthquake.html] and sensor journalism[https://www.google.com/search?q=sensor+journalism] are often discussed by digital journalists, but it's rare to see a simple, practical example.
+[Robots](http://www.slate.com/blogs/future_tense/2014/03/17/quakebot_los_angeles_times_robot_journalist_writes_article_on_la_earthquake.html) and [sensor journalism](https://www.google.com/search?q=sensor+journalism) are often discussed by digital journalists, but it's rare to see a simple, practical example.
 
 At ONA15 we're bringing together the two with, what we hope, can be a straightforward example for journalists who are curious about the intersection of electronics, programming and reporting. With under $100 in equipment you can build a simple audio sensor that transmits to a server, then processes and stores the data, and runs a simple statistical analysis that powers a twitter "robot."
 
@@ -76,4 +76,4 @@ Run the test server for the first time.
 $ fab rs
 ```
 
-Check out the page at localhost:8000[http://localhost:8000]
+Check out the page at [localhost:8000](http://localhost:8000)
