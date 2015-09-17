@@ -239,12 +239,9 @@
                 getChartJson(3, true);
                 getChartJson(4, true);
                 getChartJson(5, true); 
+                // setTimeout(updateData, updateInterval);
             }
-
-            window.setInterval(function(){
-              updateData();
-            }, updateInterval);
-
+         
         }
 
         function calculateStats(data, id) {
@@ -273,7 +270,7 @@
               var data = json;
 
               drawChart(id, data, update);
-              
+
             });
         }
 
