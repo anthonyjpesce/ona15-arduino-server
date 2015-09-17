@@ -155,6 +155,7 @@
             // Plot standard deviation above and below the mean
             var stdDev = svg.append("g");
 
+            // Shaded rectangle between the deviations
             stdDev.append("rect")
                 .attr("class", "std-dev-range")
                 .attr("x", 0)
@@ -164,6 +165,7 @@
                     return y(stats.avg - stats.deviation) - y(stats.avg + stats.deviation) ;
                 })
 
+            // Lines above and below the rect
             stdDev.append("line")
                 .attr("class", "std-dev")
                 .attr("x1", 0)
