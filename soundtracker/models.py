@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 
+
 class Signal(models.Model):
     """
     A transmission from our robot
