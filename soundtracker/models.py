@@ -29,4 +29,4 @@ class Signal(models.Model):
         ordering = ('-timestamp', 'pk')
 
     def __unicode__(self):
-        "Robot %s: %s" % (self.arduino_number, str(self.timestamp))
+        return "Robot %s: %s" % (self.arduino_number, str(self.timestamp))
