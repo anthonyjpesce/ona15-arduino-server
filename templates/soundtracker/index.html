@@ -102,7 +102,7 @@
                 w = chart.offsetWidth - margin.left - margin.right ,
                 h = 300 - margin.top - margin.bottom,
                 prevChartWidth = 0,
-                transitionDuration = 500;
+                transitionDuration = 10000;
 
             if (!update) {
                 var svg = d3.select(chart)
@@ -113,7 +113,7 @@
                                 .attr("id", "robot_" + id + "_chart")
                                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
             } else {
-                var svg = d3.select("#robot_" + id + "_chart").transition();
+                var svg = d3.select("#robot_" + id + "_chart");
             }
 
             var x = d3.time.scale()
@@ -146,13 +146,13 @@
                 svg.append("g")
                     .attr("class", "y axis")
                     .call(yAxis)
-                  .append("text")
-                    .attr("transform", "rotate(-90)")
-                    .attr("y", -45)
-                    .attr("x", -100)
-                    .attr("dy", ".71em")
-                    .style("text-anchor", "end")
-                    .text("Voltage");
+                    .append("text")
+                        .attr("transform", "rotate(-90)")
+                        .attr("y", -45)
+                        .attr("x", -100)
+                        .attr("dy", ".71em")
+                        .style("text-anchor", "end")
+                        .text("Voltage");
             }
 
 
@@ -173,7 +173,7 @@
                     .attr("y", y(stats.avg + stats.deviation))
                     .attr("width", w)
                     .attr("height", function(){
-                        return y(stats.avg - stats.deviation) - y(stats.avg + stats.deviation) ;
+                        return y(stats.avg - stats.deviation) - y(stats.avg + stats.deviation);
                     });
 
                 // Lines above and below the rect
@@ -220,25 +220,19 @@
 
             // Finally, plot the line
             if (update) {
-                // update line
-                svg.select(".voltage")
-                    .ease("linear")
-                    .duration(250)
-                    .attr("transform", "translate(" + x(d3.min(data, function(d) { return d.ts; })) + ")")
-                    .attr("d", line(data));
 
                 svg.select(".x.axis")
-                    .duration(250)
+                    // .duration(250)
                     .call(xAxis);
                 svg.select(".y.axis")
-                    .duration(250)
+                    // .duration(250)
                     .call(yAxis);
 
                 // update baseline elements
                 var baseline = svg.select('.baseline');
                 baseline.select('.line')
-                    .ease("linear")
-                    .duration(250)
+                    // .ease("linear")
+                    // .duration(250)
                     .attr("y1", y(stats.avg))
                     .attr("y2", y(stats.avg));
 
@@ -249,32 +243,32 @@
                 // update standard deviations
                 var stdDev = svg.select(".std-dev-holder");
                 stdDev.select(".std-dev-range")
-                    .ease("linear")
-                    .duration(250)
                     .attr("y", y(stats.avg + stats.deviation))
                     .attr("height", function(){
                         return y(stats.avg - stats.deviation) - y(stats.avg + stats.deviation) ;
                     });
 
                 stdDev.select(".below")
-                    .ease("linear")
-                    .duration(250)
                     .attr("y1", y(stats.avg - stats.deviation))
                     .attr("y2", y(stats.avg - stats.deviation));
 
                 stdDev.select(".above")
-                    .ease("linear")
-                    .duration(250)
                     .attr("y1", y(stats.avg + stats.deviation))
                     .attr("y2", y(stats.avg + stats.deviation));
 
+                // update line
+                svg.selectAll('.voltage')
+                    .attr("transform", "translate(" + x(d3.min(data, function(d) { return d.ts; })) + ")")
+                    .attr("d", line(data));
 
             } else {
-                svg.append("path")
+                svg.selectAll('.voltage')
+                    .data([data])
+                    .enter()
+                    .append("path")
                     .attr("class", "voltage")
                     .attr("d", line(data));
             }
-
 
         }
 
@@ -300,7 +294,7 @@
         }
 
         function getChartJson(id, update) {
-            d3.json("data/" + id + "/signals.json", function(error, json) {
+            d3.json("/data/" + id + "/signals.json", function(error, json) {
                 var data = json;
 
                 data.forEach(function(d){
@@ -322,12 +316,10 @@
         setTimeout(updateData, updateInterval);
 
     }
-
     init();
 
 
     function updateData() {
-        console.log("updating data");
         getChartJson(1, true);
         getChartJson(2, true);
         getChartJson(3, true);
