@@ -4,7 +4,7 @@ import random
 import datetime
 from django.conf import settings
 from django.utils import timezone
-from soundtracker.models import Signal
+from soundtracker.models import Robot, Signal
 from django.core.management.base import BaseCommand, CommandError
 
 
@@ -26,9 +26,14 @@ class Command(BaseCommand):
         with open(os.path.join(data_dir, filename)) as infile:
             reader = csv.reader(infile)
             for row in reader:
-                arduino = random.randrange(1,6)
+
+                # Assign each signal to a random Arduino robot
+                arduino = random.randrange(1, 6)
+                # if that robot doesn't exist, create it
+                robot = Robot.objects.get_or_create(id=arduino)
+
                 s = Signal(
-                        arduino_number=arduino,
+                        robot=robot,
                         timestamp=time,
                         voltage=row[0]
                     )

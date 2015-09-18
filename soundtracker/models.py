@@ -7,10 +7,13 @@ class Robot(models.Model):
     location = models.CharField(blank=True, null=True, max_length=30)
 
     class Meta:
-        ordering = ('-name')
+        ordering = ('-name',)
 
     def __unicode__(self):
-        return "Robot: %s" % self.name
+        if self.name:
+            return "Robot: %s" % self.name
+        else:
+            return "Robot: %d" % self.id
 
 
 class Signal(models.Model):
@@ -27,6 +30,7 @@ class Signal(models.Model):
     arduino_number = models.CharField(
         blank=True, null=True, choices=ARDUINO_NUMBER_CHOICES, max_length=2,
     )
+    robot = models.ForeignKey('Robot', null=True)
     timestamp = models.DateTimeField(default=timezone.now())
     voltage = models.DecimalField(max_digits=4, decimal_places=2)
 
@@ -38,7 +42,7 @@ class Signal(models.Model):
         }
 
     class Meta:
-        ordering = ('-timestamp', 'pk')
+        ordering = ('-timestamp', 'pk',)
 
     def __unicode__(self):
         return "Robot %s: %s" % (self.arduino_number, str(self.timestamp))

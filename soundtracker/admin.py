@@ -2,7 +2,7 @@ from django.contrib import admin
 from soundtracker.models import Robot, Signal
 
 
-class RobotAdmin(admin.modelAdmin):
+class RobotAdmin(admin.ModelAdmin):
     list_display = ['name', 'location']
 
 
