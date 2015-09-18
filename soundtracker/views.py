@@ -3,7 +3,7 @@ import datetime
 import calculate
 from django.utils import timezone
 from django.http import HttpResponse
-from soundtracker.models import Signal
+from soundtracker.models import Robot, Signal
 from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
 
@@ -20,6 +20,7 @@ def signal_submit(request):
 
     # Grab the data we want from the request
     arduino_number = request.REQUEST.get('aid', None)
+    robot, created = Robot.objects.get_or_create(id=arduino_number)
     voltage = request.REQUEST.get('volt', None)
 
     # Return a 400 response for a malformed request
@@ -28,7 +29,7 @@ def signal_submit(request):
 
     # Add our reading to the database
     Signal.objects.create(
-        arduino_number=arduino_number,
+        robot=robot,
         voltage=voltage,
     )
 
@@ -36,14 +37,18 @@ def signal_submit(request):
     return HttpResponse(status=200)
 
 
-def get_signal_stats():
+def get_signal_stats(robot_id=None):
     """
     Calculate various stats about the signals in the database.
     We'll want:
     1) number of signals sent
     2) Average volts
     """
-    signals = Signal.objects.all()
+    if robot_id:
+        signals = Signal.objects.filter(robot__id=robot_id)
+    else:
+        signals = Signal.objects.all()
+
     voltages = list(signals.values_list('voltage').order_by('voltage'))
     mean_voltage = calculate.mean(voltages)
     std_dev = calculate.standard_deviation(voltages)

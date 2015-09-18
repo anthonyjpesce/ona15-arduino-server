@@ -3,7 +3,7 @@ from django.utils import timezone
 
 
 class Robot(models.Model):
-    name = models.CharField(blank=True, null=True, max_length=30)
+    name = models.CharField(default="Unnamed robot", null=True, max_length=30)
     location = models.CharField(blank=True, null=True, max_length=30)
 
     class Meta:
