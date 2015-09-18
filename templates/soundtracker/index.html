@@ -30,14 +30,14 @@
         stroke-width: 2.5px;
         opacity: 0.9;
     }
-    
+
     line.std-dev {
         fill: none;
         stroke: steelblue;
         stroke-opacity: 0.5;
         stroke-width: 1;
         stroke-dasharray: 10,10;
- 
+
     }
     rect.std-dev-range {
         fill: #d7d7d7;
@@ -62,27 +62,27 @@
         <div class="row">
             <h2>Robot 1</h2>
             <p id="robot_1_stats"></p>
-            <div id="robot_1_chart"></div>
+            <div id="robot_1"></div>
         </div>
         <div class="row">
             <h2>Robot 2</h2>
             <p id="robot_2_stats"></p>
-            <div id="robot_2_chart"></div>
+            <div id="robot_2"></div>
         </div>
         <div class="row">
             <h2>Robot 3</h2>
             <p id="robot_3_stats"></p>
-            <div id="robot_3_chart"></div>
+            <div id="robot_3"></div>
         </div>
         <div class="row">
             <h2>Robot 4</h2>
             <p id="robot_4_stats"></p>
-            <div id="robot_4_chart"></div>
+            <div id="robot_4"></div>
         </div>
         <div class="row">
             <h2>Robot 5</h2>
             <p id="robot_5_stats"></p>
-            <div id="robot_5_chart"></div>
+            <div id="robot_5"></div>
         </div>
 
     </div>
@@ -90,22 +90,27 @@
     <script>
         var margin = {top:10, right:20, bottom:30, left:50};
         var parseDate = d3.time.format("%Y-%m-%d %H:%M:%S").parse;
-        var updateInterval = 15000;
+        var updateInterval = 5000;
 
         function drawChart(id, data, update) {
-            var chart = document.getElementById('robot_' + id + '_chart'),
+            var chart = document.getElementById('robot_' + id),
                 w = chart.offsetWidth - margin.left - margin.right ,
                 h = 300 - margin.top - margin.bottom,
                 prevChartWidth = 0,
                 transitionDuration = 500;
 
-            var svg = d3.select(chart)
-                        .append("svg")
-                        .attr("width", w + margin.left + margin.right)
-                        .attr("height", h + margin.top + margin.bottom )
-                        .append("g")
-                            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-            
+            if (!update) {
+                var svg = d3.select(chart)
+                            .append("svg")
+                            .attr("width", w + margin.left + margin.right)
+                            .attr("height", h + margin.top + margin.bottom )
+                            .append("g")
+                                .attr("id", "robot_" + id + "_chart")
+                                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            } else {
+                var svg = d3.select("#robot_" + id + "_chart");
+            }
+
             var x = d3.time.scale()
                 .range([0, w]);
 
@@ -124,124 +129,113 @@
                 .x(function(d) { return x(d.ts); })
                 .y(function(d) { return y(d.v); });
 
-            data.forEach(function(d){
-                d.ts = parseDate(d.ts);
-                d.v = parseFloat(d.v);
-            });
-
             x.domain(d3.extent(data, function(d) { return d.ts; }));
             y.domain([0,3]);
 
-            svg.append("g")
-                .attr("class", "x axis")
-                .attr("transform", "translate(0," + h + ")")
-                .call(xAxis);
+            if (!update) {
+                svg.append("g")
+                    .attr("class", "x axis")
+                    .attr("transform", "translate(0," + h + ")")
+                    .call(xAxis);
 
-            svg.append("g")
-                .attr("class", "y axis")
-                .call(yAxis)
-              .append("text")
-                .attr("transform", "rotate(-90)")
-                .attr("y", -45)
-                .attr("x", -100)
-                .attr("dy", ".71em")
-                .style("text-anchor", "end")
-                .text("Voltage");
+                svg.append("g")
+                    .attr("class", "y axis")
+                    .call(yAxis)
+                  .append("text")
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", -45)
+                    .attr("x", -100)
+                    .attr("dy", ".71em")
+                    .style("text-anchor", "end")
+                    .text("Voltage");
+            }
 
 
             var stats = calculateStats(data);
-
             buildSummaryGraf(stats, id);
 
-            // Plot standard deviation above and below the mean
-            var stdDev = svg.append("g");
 
-            // Shaded rectangle between the deviations
-            stdDev.append("rect")
-                .attr("class", "std-dev-range")
-                .attr("x", 0)
-                .attr("y", y(stats.avg + stats.deviation))
-                .attr("width", w)
-                .attr("height", function(){
-                    return y(stats.avg - stats.deviation) - y(stats.avg + stats.deviation) ;
-                })
+            if (!update) {
 
-            // Lines above and below the rect
-            stdDev.append("line")
-                .attr("class", "std-dev")
-                .attr("x1", 0)
-                .attr("x2", w)
-                .attr("y1", y(stats.avg - stats.deviation))
-                .attr("y2", y(stats.avg - stats.deviation));
+                // Plot standard deviation above and below the mean
+                var stdDev = svg.append("g")
+                                .attr("class", "std-dev-holder");
 
-            stdDev.append("line")
-                .attr("class", "std-dev")
-                .attr("x1", 0)
-                .attr("x2", w)
-                .attr("y1", y(stats.avg + stats.deviation))
-                .attr("y2", y(stats.avg + stats.deviation));
+                // Shaded rectangle between the deviations
+                stdDev.append("rect")
+                    .attr("class", "std-dev-range")
+                    .attr("x", 0)
+                    .attr("y", y(stats.avg + stats.deviation))
+                    .attr("width", w)
+                    .attr("height", function(){
+                        return y(stats.avg - stats.deviation) - y(stats.avg + stats.deviation) ;
+                    });
 
-            // Baseline of average voltage for the period
-            var baseline = svg.append("g").attr("class","baseline");
+                // Lines above and below the rect
+                stdDev.append("line")
+                    .attr("class", "std-dev below")
+                    .attr("x1", 0)
+                    .attr("x2", w)
+                    .attr("y1", y(stats.avg - stats.deviation))
+                    .attr("y2", y(stats.avg - stats.deviation));
 
-            var text = baseline.append("text")
-                        .attr("class", "avg")
-                        .text("Average for period: " + stats.avg.toFixed(1) + "V")
-                        .style("fill", "#F00")
-                        .style("text-anchor", "middle")
-                        .style("opacity", 0)
-                        .attr("y", y(stats.avg + stats.deviation))
-                        .attr("transform", "translate(0,-5)"); 
+                stdDev.append("line")
+                    .attr("class", "std-dev above")
+                    .attr("x1", 0)
+                    .attr("x2", w)
+                    .attr("y1", y(stats.avg + stats.deviation))
+                    .attr("y2", y(stats.avg + stats.deviation));
 
-            baseline.append("line")
-                .style("stroke-width", 1.5)
-                .style("stroke-opacity", 0.3)
-                .style("stroke", "#F00")
-                .attr("x1", 0)
-                .attr("x2", w)
-                .attr("y1", y(stats.avg))
-                .attr("y2", y(stats.avg))
-                .on("mouseover", function(e) {
-                    var xy = d3.mouse(this);
-                    d3.select(this).style("stroke-opacity", 1.0);
-                    text.style("opacity", 1).attr("x", xy[0]);
-                })
-                .on("mouseout", function(){ 
-                    d3.select(this).style("stroke-opacity", 0.3);
-                    text.style("opacity", 0);
-                });
+                // Baseline of average voltage for the period
+                var baseline = svg.append("g").attr("class","baseline");
 
+                var text = baseline.append("text")
+                            .attr("class", "avg")
+                            .text("Average for period: " + stats.avg.toFixed(1) + "V")
+                            .style("fill", "#F00")
+                            .style("text-anchor", "middle")
+                            .style("opacity", 0)
+                            .attr("y", y(stats.avg + stats.deviation))
+                            .attr("transform", "translate(0,-5)");
+
+                baseline.append("line")
+                    .style("stroke-width", 1.5)
+                    .style("stroke-opacity", 0.3)
+                    .style("stroke", "#F00")
+                    .attr("x1", 0)
+                    .attr("x2", w)
+                    .attr("y1", y(stats.avg))
+                    .attr("y2", y(stats.avg))
+                    .on("mouseover", function(e) {
+                        var xy = d3.mouse(this);
+                        d3.select(this).style("stroke-opacity", 1.0);
+                        text.style("opacity", 1).attr("x", xy[0]);
+                    })
+                    .on("mouseout", function(){
+                        d3.select(this).style("stroke-opacity", 0.3);
+                        text.style("opacity", 0);
+                    });
+
+            }
 
             // Finally, plot the line
             if (update) {
-                console.log("updating chart" + id);
-                svg.append("path")
-                    .datum(data)
-                    .attr("transform", "translate(" + x(1) + ")")
-                    .attr("class", "line")
-                    .attr("d", line)
+                svg.select(".line")
                     .transition()
                     .ease("linear")
                     .duration(250)
-                    .attr("transform", "translate(" + x(0) + ")"); 
-            } else {
-                console.log("drawing initial chart" + id);
-                svg.append("path")
-                    .datum(data)
+                    .attr("transform", "translate(" + x(d3.min(data, function(d) { return d.ts; })) + ")")
                     .attr("class", "line")
-                    .attr("d", line);   
+                    .attr("d", line(data));
+
+            } else {
+                svg.append("path")
+                    .attr("class", "line")
+                    .attr("d", line(data));
+
             }
 
 
-            function updateData() {
-                getChartJson(1, true);
-                getChartJson(2, true);
-                getChartJson(3, true);
-                getChartJson(4, true);
-                getChartJson(5, true); 
-                // setTimeout(updateData, updateInterval);
-            }
-         
         }
 
         function calculateStats(data, id) {
@@ -267,9 +261,14 @@
 
         function getChartJson(id, update) {
             d3.json("data/" + id + "/signals.json", function(error, json) {
-              var data = json;
+                var data = json;
 
-              drawChart(id, data, update);
+                data.forEach(function(d){
+                    d.ts = parseDate(d.ts);
+                    d.v = parseFloat(d.v);
+                });
+
+                drawChart(id, data, update);
 
             });
         }
@@ -279,10 +278,21 @@
         getChartJson(2, false);
         getChartJson(3, false);
         getChartJson(4, false);
-        getChartJson(5, false);        
+        getChartJson(5, false);
     }
 
     init();
+
+
+    function updateData() {
+        getChartJson(1, true);
+        getChartJson(2, true);
+        getChartJson(3, true);
+        getChartJson(4, true);
+        getChartJson(5, true);
+        // setTimeout(updateData, updateInterval);
+    }
+
 
 
     </script>
