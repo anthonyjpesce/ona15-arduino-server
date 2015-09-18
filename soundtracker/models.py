@@ -2,6 +2,17 @@ from django.db import models
 from django.utils import timezone
 
 
+class Robot(models.Model):
+    name = models.CharField(blank=True, null=True, max_length=30)
+    location = models.CharField(blank=True, null=True, max_length=30)
+
+    class Meta:
+        ordering = ('-name')
+
+    def __unicode__(self):
+        return "Robot: %s" % self.name
+
+
 class Signal(models.Model):
     """
     A transmission from our robot
