@@ -19,7 +19,7 @@
       display: none;
     }
 
-    .line {
+    .voltage {
       fill: none;
       stroke: steelblue;
       stroke-width: 1.5px;
@@ -95,7 +95,7 @@
     <script>
         var margin = {top:10, right:20, bottom:30, left:50};
         var parseDate = d3.time.format("%Y-%m-%d %H:%M:%S").parse;
-        var updateInterval = 5000;
+        var updateInterval = 3000;
 
         function drawChart(id, data, update) {
             var chart = document.getElementById('robot_' + id),
@@ -220,6 +220,20 @@
 
             // Finally, plot the line
             if (update) {
+                // update line
+                svg.select(".voltage")
+                    .ease("linear")
+                    .duration(250)
+                    .attr("transform", "translate(" + x(d3.min(data, function(d) { return d.ts; })) + ")")
+                    .attr("d", line(data));
+
+                svg.select(".x.axis")
+                    .duration(250)
+                    .call(xAxis);
+                svg.select(".y.axis")
+                    .duration(250)
+                    .call(yAxis);
+
                 // update baseline elements
                 var baseline = svg.select('.baseline');
                 baseline.select('.line')
@@ -254,17 +268,10 @@
                     .attr("y1", y(stats.avg + stats.deviation))
                     .attr("y2", y(stats.avg + stats.deviation));
 
-                // update line
-                svg.select(".line")
-                    .ease("linear")
-                    .duration(250)
-                    .attr("transform", "translate(" + x(d3.min(data, function(d) { return d.ts; })) + ")")
-                    .attr("class", "line")
-                    .attr("d", line(data));
 
             } else {
                 svg.append("path")
-                    .attr("class", "line")
+                    .attr("class", "voltage")
                     .attr("d", line(data));
             }
 
@@ -312,18 +319,21 @@
         getChartJson(3, false);
         getChartJson(4, false);
         getChartJson(5, false);
+        setTimeout(updateData, updateInterval);
+
     }
 
     init();
 
 
     function updateData() {
+        console.log("updating data");
         getChartJson(1, true);
         getChartJson(2, true);
         getChartJson(3, true);
         getChartJson(4, true);
         getChartJson(5, true);
-        // setTimeout(updateData, updateInterval);
+        setTimeout(updateData, updateInterval);
     }
 
 
