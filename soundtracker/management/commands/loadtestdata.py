@@ -30,7 +30,7 @@ class Command(BaseCommand):
                 # Assign each signal to a random Arduino robot
                 arduino = random.randrange(1, 6)
                 # if that robot doesn't exist, create it
-                robot = Robot.objects.get_or_create(id=arduino)
+                robot, created = Robot.objects.get_or_create(id=arduino)
 
                 s = Signal(
                         robot=robot,

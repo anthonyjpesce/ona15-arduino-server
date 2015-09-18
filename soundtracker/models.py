@@ -36,7 +36,6 @@ class Signal(models.Model):
 
     def as_dict(self):
         return {
-            "no": self.arduino_number,
             "ts": timezone.localtime(self.timestamp).strftime("%Y-%m-%d %H:%M:%S"),
             "v": str(self.voltage)
         }

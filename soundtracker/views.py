@@ -17,7 +17,7 @@ def signal_submit(request):
     # It must be a POST request
     if request.method != 'POST':
         return HttpResponse(status=405)
-    
+
     # Grab the data we want from the request
     arduino_number = request.REQUEST.get('aid', None)
     voltage = request.REQUEST.get('volt', None)
@@ -56,7 +56,7 @@ def get_signal_json(request, arduino_id=1):
     Get all signals over the last 10 minutes
     """
     ten_minutes = timezone.localtime(timezone.now()) - datetime.timedelta(minutes=10)
-    signals = Signal.objects.filter(arduino_number=arduino_id,
+    signals = Signal.objects.filter(robot__id=arduino_id,
                                     timestamp__lt=timezone.localtime(timezone.now()),
                                     timestamp__gte=ten_minutes)
     response = json.dumps([s.as_dict() for s in signals])
