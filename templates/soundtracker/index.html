@@ -222,17 +222,14 @@
             if (update) {
 
                 svg.select(".x.axis")
-                    // .duration(250)
                     .call(xAxis);
+
                 svg.select(".y.axis")
-                    // .duration(250)
                     .call(yAxis);
 
                 // update baseline elements
                 var baseline = svg.select('.baseline');
                 baseline.select('.line')
-                    // .ease("linear")
-                    // .duration(250)
                     .attr("y1", y(stats.avg))
                     .attr("y2", y(stats.avg));
 
