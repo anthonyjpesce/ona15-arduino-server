@@ -7,6 +7,8 @@ from soundtracker.models import Robot, Signal
 from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
 
+from django.shortcuts import get_object_or_404
+
 
 @csrf_exempt
 def signal_submit(request):
@@ -19,14 +21,15 @@ def signal_submit(request):
         return HttpResponse(status=405)
 
     # Grab the data we want from the request
-    arduino_number = request.REQUEST.get('aid', None)
-    robot, created = Robot.objects.get_or_create(id=arduino_number)
+    robot_id = request.REQUEST.get('rid', None)
     voltage = request.REQUEST.get('volt', None)
 
     # Return a 400 response for a malformed request
-    if not arduino_number or not voltage:
+    if not robot_id or not voltage:
         return HttpResponse(status=400)
 
+    robot = get_object_or_404(Robot, pk=robot_id)
+    
     # Add our reading to the database
     Signal.objects.create(
         robot=robot,
