@@ -7,8 +7,8 @@ class RobotAdmin(admin.ModelAdmin):
 
 
 class SignalAdmin(admin.ModelAdmin):
-    list_display = ['timestamp', 'arduino_number', 'voltage']
-    list_filter = ['arduino_number']
+    list_display = ['timestamp', 'robot', 'voltage']
+    list_filter = ['robot']
 
 
 admin.site.register(Signal, SignalAdmin)
