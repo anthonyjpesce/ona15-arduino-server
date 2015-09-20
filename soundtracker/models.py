@@ -21,7 +21,7 @@ class Signal(models.Model):
     A transmission from our robot
     """
     robot = models.ForeignKey('Robot', null=True)
-    timestamp = models.DateTimeField(default=timezone.now())
+    timestamp = models.DateTimeField(auto_now_add=True)
     voltage = models.DecimalField(max_digits=4, decimal_places=2)
 
     def as_dict(self):
@@ -34,4 +34,4 @@ class Signal(models.Model):
         ordering = ('-timestamp', 'pk',)
 
     def __unicode__(self):
-        return "Robot %s: %s" % (self.arduino_number, str(self.timestamp))
+        return "Robot %s: %s" % (self.robot.id, str(self.timestamp))

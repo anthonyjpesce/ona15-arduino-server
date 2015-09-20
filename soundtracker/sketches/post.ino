@@ -34,7 +34,7 @@ unsigned long
 Adafruit_CC3000_Client
   client;        // For WiFi connections
 
-String postdata = "aid=1&volt=";
+String postdata = "rid=5&volt=";
 char server[] = "192.168.0.6";
 
 void setup(void) {
