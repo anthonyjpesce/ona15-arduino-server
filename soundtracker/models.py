@@ -7,7 +7,7 @@ class Robot(models.Model):
     location = models.CharField(blank=True, null=True, max_length=30)
 
     class Meta:
-        ordering = ('-name',)
+        ordering = ('name',)
 
     def __unicode__(self):
         if self.name:
