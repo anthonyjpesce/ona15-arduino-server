@@ -60,17 +60,17 @@ void setup(void) {
 }
 
 void loop() {
-   unsigned long startMillis= millis();  // Start of sample window
-   unsigned int peakToPeak = 0;   // peak-to-peak level
-   unsigned int signalMax = 0;
-   unsigned int signalMin = 1024;
+    unsigned long startMillis= millis();  // Start of sample window
+    unsigned int peakToPeak = 0;   // peak-to-peak level
+    unsigned int signalMax = 0;
+    unsigned int signalMin = 1024;
     unsigned long t = millis();
     unsigned long ip = 3232235526;
 
  
-   // collect data for 50 mS
-   while (millis() - startMillis < sampleWindow)
-   {
+    // collect data every second
+    while (millis() - startMillis < sampleWindow)
+    {
       sample = analogRead(0);
       if (sample < 1024)  // toss out spurious readings
       {
@@ -83,15 +83,15 @@ void loop() {
             signalMin = sample;  // save just the min levels
          }
       }
-   }
-   peakToPeak = signalMax - signalMin;  // max - min = peak-peak amplitude
-   double volts = (peakToPeak * 3.3) / 1024;  // convert to volts
-   
-   // cc3000.getHostByName((char *)server, &ip);
+    }
+    
+    peakToPeak = signalMax - signalMin;  // max - min = peak-peak amplitude
+    double volts = (peakToPeak * 3.3) / 1024;  // convert to volts
+    Serial.println(peakToPeak);
+    
    
     Serial.print(F("OK\r\nConnecting to server..."));
     t = millis();
-    Serial.print(ip);
     do {
        client = cc3000.connectTCP(ip, 80);
     } while((!client.connected()) &&
