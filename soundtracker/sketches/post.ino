@@ -34,10 +34,21 @@ unsigned long
 Adafruit_CC3000_Client
   client;        // For WiFi connections
 
+// TODO:
+// Some way to set robot ID as a constant here.
+// Maybe people just change the number in the postdata?
 String postdata = "rid=5&volt=";
+
+// TODO:
+// Don't think we need this here...
+// would be better to define the IP as a constant here if possible.
+// IP to Integer IP conversion:
+// http://www.silisoftware.com/tools/ipconverter.php
 char server[] = "192.168.0.6";
 
 void setup(void) {
+  // TODO:
+  // Don't think we need the ip variable here
   uint32_t ip = 0L, t;
   Serial.begin(9600);
 
@@ -65,9 +76,11 @@ void loop() {
     unsigned int signalMax = 0;
     unsigned int signalMin = 1024;
     unsigned long t = millis();
+    // TODO:
+    // Would be nice to remove ip from here and add it up top as a constant
     unsigned long ip = 3232235526;
 
- 
+
     // collect data every second
     while (millis() - startMillis < sampleWindow)
     {
@@ -84,12 +97,12 @@ void loop() {
          }
       }
     }
-    
+
     peakToPeak = signalMax - signalMin;  // max - min = peak-peak amplitude
     double volts = (peakToPeak * 3.3) / 1024;  // convert to volts
     Serial.println(peakToPeak);
-    
-   
+
+
     Serial.print(F("OK\r\nConnecting to server..."));
     t = millis();
     do {
@@ -97,7 +110,7 @@ void loop() {
     } while((!client.connected()) &&
           ((millis() - t) < connectTimeout));
 
-   
+
    // If there's a successful connection, send the HTTP POST request
    if (client.connected()) {
      Serial.println("connecting...");
@@ -112,16 +125,16 @@ void loop() {
      client.println(postdata.length() + 3);
      client.println();
      client.print(postdata);
-     client.print(volts); 
-   } 
+     client.print(volts);
+   }
    else {
      // If you couldn't make a connection:
      Serial.println("Connection failed");
      Serial.println("Disconnecting.");
      client.stop();
    }
- 
- 
+
+
    Serial.println(volts);
 }
 
