@@ -6,6 +6,27 @@ class Robot(models.Model):
     name = models.CharField(default="Unnamed robot", null=True, max_length=30)
     location = models.CharField(blank=True, null=True, max_length=30)
 
+    def check_for_spikes(self):
+        """
+        Find the standard deviation of the past 10 minutes.
+        Send out a tweet if there are any signals greater than two standard deviations 
+        in the past 30 seconds. 
+        """
+        ten_minutes = timezone.localtime(timezone.now()) - datetime.timedelta(minutes=20)
+        thirty_seconds = timezone.localtime(timezone.now()) - datetime.timedelta(seconds=30)
+        signals_past_ten_min = Signal.objects.filter(robot__id=robot_id,
+                timestamp__lt=timezone.localtime(timezone.now()),
+                timestamp__gte=ten_minutes
+            )
+        std_dev = calculate.standard_deviation(voltages)
+        twice_std_dev = std_dev * 2
+        signals_past_30_secs = signals_past_ten_min.filter(timestamp__gte=thirty_seconds, voltage__gte=twice_std_dev)
+
+        if signals_past_30_secs.count() > 0:
+            # This is where we tweet?
+            pass
+
+
     class Meta:
         ordering = ('name',)
 
