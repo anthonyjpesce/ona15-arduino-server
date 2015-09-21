@@ -95,6 +95,7 @@
                 prevChartWidth = 0,
                 transitionDuration = 10000;
 
+
             if (!update) {
                 var svg = d3.select(chart)
                             .append("svg")
@@ -275,7 +276,7 @@
                 count: data.length,
                 extent: d3.extent(values),
                 avg: d3.mean(values),
-                deviation: d3.deviation(values)
+                deviation: d3.deviation(values) * 2
             };
         }
 
@@ -291,15 +292,17 @@
         function getChartJson(id, update) {
             var cacheBreaker = '?' + Math.floor(Math.random() * 100000)
             d3.json("/data/" + id + "/signals.json" + cacheBreaker, function(error, json) {
-                var data = json;
+                if(!error) {
+                    var data = json;
+                    if (data.length > 0) {
+                        data.forEach(function(d){
+                            d.ts = parseDate(d.ts);
+                            d.v = parseFloat(d.v);
+                        });
 
-                data.forEach(function(d){
-                    d.ts = parseDate(d.ts);
-                    d.v = parseFloat(d.v);
-                });
-
-                drawChart(id, data, update);
-
+                        drawChart(id, data, update);                                            
+                    }
+                }
             });
         }
 
