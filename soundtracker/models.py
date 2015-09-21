@@ -8,7 +8,7 @@ class Robot(models.Model):
     name = models.CharField(default="Unnamed robot", null=True, max_length=30)
     location = models.CharField(blank=True, null=True, max_length=30)
 
-    def check_for_spikes(self):
+    def has_sound_spike(self):
         """
         Find the standard deviation of the past 10 minutes.
         Send out a tweet if there are any signals greater than two standard deviations
@@ -27,8 +27,7 @@ class Robot(models.Model):
         signals_past_30_secs = signals_past_ten_min.filter(timestamp__gte=thirty_seconds, voltage__gte=twice_std_dev)
 
         if signals_past_30_secs.count() > 0:
-            # This is where we tweet?
-            pass
+            return True
 
     class Meta:
         ordering = ('name',)
