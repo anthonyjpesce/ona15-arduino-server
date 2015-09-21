@@ -29,7 +29,7 @@ def signal_submit(request):
         return HttpResponse(status=400)
 
     robot = get_object_or_404(Robot, pk=robot_id)
-    
+
     # Add our reading to the database
     Signal.objects.create(
         robot=robot,
@@ -38,25 +38,6 @@ def signal_submit(request):
 
     # We're good, return a 200 response
     return HttpResponse(status=200)
-
-
-def get_signal_stats(robot_id=None):
-    """
-    Calculate various stats about the signals in the database.
-    We'll want:
-    1) number of signals sent
-    2) Average volts
-    """
-    if robot_id:
-        signals = Signal.objects.filter(robot__id=robot_id)
-    else:
-        signals = Signal.objects.all()
-
-    voltages = list(signals.values_list('voltage').order_by('voltage'))
-    mean_voltage = calculate.mean(voltages)
-    std_dev = calculate.standard_deviation(voltages)
-
-    return mean_voltage, std_dev
 
 
 def get_signal_json(request, arduino_id=1):
