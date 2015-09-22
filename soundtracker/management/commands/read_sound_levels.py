@@ -26,7 +26,7 @@ class Command(BaseCommand):
 
             if peak_voltage:
                 # Tweet here
-                tweet = "Things are really going off in the " + location + "! " + name + " picked up a reading of " + str(peak_voltage) + "volts."
+                tweet = "Things are really going off in the " + location + "! " + name + " picked up a reading of " + str(peak_voltage) + " volts."
                 logger.debug(tweet)
                 api.PostUpdate(tweet)
             else:
