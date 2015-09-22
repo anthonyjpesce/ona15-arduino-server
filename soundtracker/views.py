@@ -1,6 +1,5 @@
 import json
 import datetime
-import calculate
 from django.utils import timezone
 from django.http import HttpResponse
 from soundtracker.models import Robot, Signal
