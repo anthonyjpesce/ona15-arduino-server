@@ -1,3 +1,5 @@
+from settings_private import PROD_DATABASE_PASSWORD
+
 DEBUG = False
 DEVELOPMENT, PRODUCTION = False, True
 DEBUG_TOOLBAR = False
@@ -12,12 +14,25 @@ CACHES = {
         }
     }
 }
+
 TEMPLATE_LOADERS = (
     ('django.template.loaders.cached.Loader', (
         'django.template.loaders.filesystem.Loader',
         'django.template.loaders.app_directories.Loader',
     )),
 )
+
 STATIC_URL = ''
 WSGI_APPLICATION = 'project.wsgi_prod.application'
-ALLOWED_HOSTS = ()
+ALLOWED_HOSTS = ('*',)
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'soundtracker',
+        'USER': 'datadesk',
+        'PASSWORD': PROD_DATABASE_PASSWORD,
+        'HOST': 'localhost',
+        'PORT': '5433',
+    }
+}
