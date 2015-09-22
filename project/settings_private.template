@@ -4,8 +4,6 @@ SECRET_KEY = "RUN fab makesecret to get a real secret key!"
 AWS_ACCESS_KEY_ID = '' # The shorter one
 AWS_SECRET_ACCESS_KEY = '' # The longer one
 AWS_BUCKET_NAME = '' # For your static files
-AWS_BACKUP_BUCKET_NAME = '' # For database backups
-AWS_BACKUP_BUCKET_DIRECTORY = '' # A prefix for the database backup key
 
 # Twitter
 TWITTER_CONSUMER_KEY = ''
@@ -25,13 +23,4 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': '',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '5433',
-    }
-}
+PROD_DATABASE_PASSWORD = ''
