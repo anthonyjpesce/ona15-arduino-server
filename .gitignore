@@ -7,7 +7,7 @@ project/settings_private.py
 chef/cookbooks/palewire/files/default/id_rsa
 chef/cookbooks/palewire/files/default/id_rsa.pub
 chef/cookbooks/palewire/files/default/authorized_keys
-chef/cookbooks/node.json
+chef/node.json
 *.egg-*
 .static/*
 .media/*
