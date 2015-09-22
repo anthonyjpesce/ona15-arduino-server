@@ -19,7 +19,10 @@ class Command(BaseCommand):
         )
 
         for robot in Robot.objects.all():
-            if robot.has_sound_spike():
+            peak_voltage = robot.has_sound_spike()
+            if peak_voltage:
                 # Tweet here
-                # Add in robot name, location and voltage
-                api.PostUpdate("Tweeting!")
+                volts = 1.5
+                tweet = "Things are really going off in " + robot.location + "! " + robot.name + " picked up a reading\
+                 of " + peak_voltage
+                api.PostUpdate(tweet)

@@ -26,8 +26,13 @@ class Robot(models.Model):
         twice_std_dev = std_dev * 2
         signals_past_30_secs = signals_past_ten_min.filter(timestamp__gte=thirty_seconds, voltage__gte=twice_std_dev)
 
+        # return the voltage of the highest signal if there has been a spike
+        # Or return False
         if signals_past_30_secs.count() > 0:
-            return True
+            signals_past_30_secs = list(signals_past_30_secs.values_list('voltage', flat=True).order_by('-voltage'))
+            return signals_past_30_secs[0]
+        else:
+            return False
 
     class Meta:
         ordering = ('name',)
