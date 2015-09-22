@@ -24,7 +24,7 @@ class Command(BaseCommand):
                 name = robot.name or u'Bot with no name'
                 location = robot.location or u'unplaced robot'
 
-                tweet = "Things are really going off in the " + location + "! " + name + " picked up a reading of " + str(peak_voltage)
+                tweet = "Things are really going off in the " + location + "! " + name + " picked up a reading of " + str(peak_voltage) + "volts."
                 print tweet
                 api.PostUpdate(tweet)
             else:
