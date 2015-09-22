@@ -1,7 +1,6 @@
 import twitter
 from settings_private import *
 from django.conf import settings
-from django.utils import timezone
 from soundtracker.models import Robot
 from django.core.management.base import BaseCommand, CommandError
 
@@ -20,9 +19,9 @@ class Command(BaseCommand):
 
         for robot in Robot.objects.all():
             peak_voltage = robot.has_sound_spike()
+
             if peak_voltage:
                 # Tweet here
-                volts = 1.5
                 tweet = "Things are really going off in " + robot.location + "! " + robot.name + " picked up a reading\
                  of " + peak_voltage
                 api.PostUpdate(tweet)

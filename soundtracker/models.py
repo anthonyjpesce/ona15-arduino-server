@@ -49,7 +49,7 @@ class Signal(models.Model):
     A transmission from our robot
     """
     robot = models.ForeignKey('Robot', null=True)
-    timestamp = models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateTimeField()
     voltage = models.DecimalField(max_digits=4, decimal_places=2)
 
     def as_dict(self):
@@ -63,3 +63,7 @@ class Signal(models.Model):
 
     def __unicode__(self):
         return "Robot %s: %s" % (self.robot.id, str(self.timestamp))
+
+    def save():
+        if not self.timestamp:
+            timestamp = timezone.localtime(timezone.now())
