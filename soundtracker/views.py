@@ -21,7 +21,7 @@ def signal_submit(request):
         return HttpResponse(status=405)
 
     # Grab the data we want from the request
-    robot_id = request.REQUEST.get('rid', None)
+    robot_id = request.REQUEST.get('robot_id', None)
     voltage = request.REQUEST.get('volt', None)
 
     # Return a 400 response for a malformed request

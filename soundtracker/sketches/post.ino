@@ -34,17 +34,15 @@ unsigned long
 Adafruit_CC3000_Client
   client;        // For WiFi connections
 
-// TODO:
-// Some way to set robot ID as a constant here.
-// Maybe people just change the number in the postdata?
-String postdata = "rid=5&volt=";
+// Change the number after robot_id to the number for your robot
+String postdata = "robot_id=5&volt=";
 
-// TODO:
-// Don't think we need this here...
-// would be better to define the IP as a constant here if possible.
-// IP to Integer IP conversion:
+// We list IP here as a string for reference
+// But we really want it as an integer
+// You can use this site for Integer IP conversion:
 // http://www.silisoftware.com/tools/ipconverter.php
-char server[] = "192.168.0.6";
+char server[] = "172.24.40.233";
+const uint32_t ip = 2887264489;
 
 void setup(void) {
   // TODO:
@@ -78,7 +76,7 @@ void loop() {
     unsigned long t = millis();
     // TODO:
     // Would be nice to remove ip from here and add it up top as a constant
-    unsigned long ip = 3232235526;
+    // unsigned long ip = 3232235526;
 
 
     // collect data every second
