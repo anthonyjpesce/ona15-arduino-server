@@ -7,6 +7,7 @@ from django.utils import timezone
 class Robot(models.Model):
     name = models.CharField(default="Unnamed robot", null=True, max_length=30)
     location = models.CharField(blank=True, null=True, max_length=30)
+    description = models.TextField(blank=True, null=True)
 
     def has_sound_spike(self):
         """
@@ -21,9 +22,9 @@ class Robot(models.Model):
                 timestamp__gte=ten_minutes
             )
         voltages = list(signals_past_ten_min.values_list('voltage', flat=True).order_by('voltage'))
-
+        avg = calculate.mean(voltages)
         std_dev = calculate.standard_deviation(voltages)
-        twice_std_dev = std_dev * 2
+        twice_std_dev = (std_dev * 2) + avg
         signals_past_30_secs = signals_past_ten_min.filter(timestamp__gte=thirty_seconds, voltage__gte=twice_std_dev)
 
         # return the voltage of the highest signal if there has been a spike

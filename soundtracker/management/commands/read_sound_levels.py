@@ -1,7 +1,10 @@
+import logging
 import twitter
 from django.conf import settings
 from soundtracker.models import Robot
 from django.core.management.base import BaseCommand, CommandError
+
+logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
@@ -18,14 +21,13 @@ class Command(BaseCommand):
 
         for robot in Robot.objects.all():
             peak_voltage = robot.has_sound_spike()
+            name = robot.name or u'Bot with no name'
+            location = robot.location or u'unplaced robot'
 
             if peak_voltage:
                 # Tweet here
-                name = robot.name or u'Bot with no name'
-                location = robot.location or u'unplaced robot'
-
-                tweet = "Things are really going off in " + location + "! " + name + " picked up a reading\
-                 of " + str(peak_voltage)
+                tweet = "Things are really going off in the " + location + "! " + name + " picked up a reading of " + str(peak_voltage) + " volts."
+                logger.debug(tweet)
                 api.PostUpdate(tweet)
             else:
-                print "No spike recorded for " + robot.id
+                logger.debug("No spike recorded for " + name)
