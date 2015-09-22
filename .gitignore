@@ -4,6 +4,7 @@ django.log
 django.log*
 project/settings_dev.py
 project/settings_private.py
+fabfile/env.py
 chef/cookbooks/datadesk/files/default/users/id_rsa
 chef/cookbooks/datadesk/files/default/users/id_rsa.pub
 chef/cookbooks/datadesk/files/default/users/authorized_keys
