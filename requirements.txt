@@ -11,6 +11,7 @@ pep8
 psycopg2
 pyflakes
 python-memcached
+python-twitter
 pytz
 sh
 six
