@@ -30,7 +30,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'soundtracker',
-        'USER': 'datadesk',
+        'USER': 'soundtracker',
         'PASSWORD': PROD_DATABASE_PASSWORD,
         'HOST': 'localhost',
         'PORT': '5433',

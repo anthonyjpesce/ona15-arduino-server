@@ -4,9 +4,9 @@ django.log
 django.log*
 project/settings_dev.py
 project/settings_private.py
-chef/cookbooks/palewire/files/default/id_rsa
-chef/cookbooks/palewire/files/default/id_rsa.pub
-chef/cookbooks/palewire/files/default/authorized_keys
+chef/cookbooks/datadesk/files/default/users/id_rsa
+chef/cookbooks/datadesk/files/default/users/id_rsa.pub
+chef/cookbooks/datadesk/files/default/users/authorized_keys
 chef/node.json
 *.egg-*
 .static/*
