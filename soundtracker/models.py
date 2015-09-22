@@ -14,9 +14,9 @@ class Robot(models.Model):
         Send out a tweet if there are any signals greater than two standard deviations
         in the past 30 seconds.
         """
-        ten_minutes = timezone.localtime(timezone.now()) - datetime.timedelta(minutes=20)
+        ten_minutes = timezone.localtime(timezone.now()) - datetime.timedelta(minutes=10)
         thirty_seconds = timezone.localtime(timezone.now()) - datetime.timedelta(seconds=30)
-        signals_past_ten_min = Robot.signal_set.filter(
+        signals_past_ten_min = self.signal_set.filter(
                 timestamp__lt=timezone.localtime(timezone.now()),
                 timestamp__gte=ten_minutes
             )
