@@ -7,6 +7,12 @@ AWS_BUCKET_NAME = '' # For your static files
 AWS_BACKUP_BUCKET_NAME = '' # For database backups
 AWS_BACKUP_BUCKET_DIRECTORY = '' # A prefix for the database backup key
 
+# Twitter
+TWITTER_CONSUMER_KEY = ''
+TWITTER_CONSUMER_SECRET = ''
+TWITTER_ACCESS_TOKEN_KEY = ''
+TWITTER_ACCESS_TOKEN_SECRET = ''
+
 # Email
 ADMINS = (
     ('', ''),
