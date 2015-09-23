@@ -8,48 +8,50 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
     <style type="text/css">
-    .container {padding-left:25px; padding-right:25px;}
-    .axis path,
-    .axis line {
-      fill: none;
-      stroke: #000;
-      shape-rendering: crispEdges;
-    }
-
-    .x.axis path {
-      display: none;
-    }
-
-    .voltage {
-      fill: none;
-      stroke: steelblue;
-      stroke-width: 1.5px;
-    }
-    text.avg {
-        font-size: 12px;
-        fill: #F00;
-        text-anchor: middle;
-        opacity: 0;
-    }
-
-    line.std-dev {
-        fill: none;
-        stroke: steelblue;
-        stroke-opacity: 0.5;
-        stroke-width: 1;
-        stroke-dasharray: 10,10;
-
-    }
-    rect.std-dev-range {
-        fill: #d7d7d7;
-        fill-opacity: 0.25;
-    }
-
-    .baseline .line {
-        stroke-width: 1.5;
-        stroke-opacity: 0.3;
-        stroke: #F00;
-    }
+        .container {
+         padding-left: 25px; padding-right: 25px;
+        }
+        .axis path, .axis line {
+         fill: none; stroke: #000; shape-rendering: crispEdges;
+        }
+        .x.axis path {
+         display: none
+        }
+        .voltage {
+         fill: none; stroke: steelblue; stroke-width: 1.5px;
+        }
+        text.avg {
+         font-size: 12px; fill: #F00; text-anchor: middle; opacity: 0;
+        }
+        line.std-dev {
+         fill: none; stroke: steelblue; stroke-opacity: 0.5; stroke-width: 1; stroke-dasharray: 10,10;
+        }
+        rect.std-dev-range {
+         fill: #d7d7d7; fill-opacity: 0.25;
+        }
+        .baseline .line {
+         stroke-width: 1.5; stroke-opacity: 0.3; stroke: #F00;
+        }
+        .jumbotron {
+         background: #fff; border-bottom: 5px solid #eee;
+        }
+        img.bot {
+         max-width: 100%; max-height: 250px; height: auto;
+        }
+        .jumbotron h1 {
+         font-weight: bold
+        }
+        .bot2 {
+         width: 75px; height: auto; display: inline;
+        }
+        @media (max-width: 767px) { 
+            h1 {
+             font-size: 26px !important
+            }
+            .jumbotron p {
+                font-size:16px;
+            }
+        }
     </style>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -58,12 +60,15 @@
 </head>
 <body>
     <div class="jumbotron">
+        <a href="https://github.com/anthonyjpesce/ona15-arduino-server"><img style="position: absolute; top: 0; right: 0; border: 0;z-index:99999" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
         <div class="container">
             <div class="row">
-                <div class="span12">
-                    <a href="https://github.com/anthonyjpesce/ona15-arduino-server"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
-                    <h1>#ONA15bot</h1>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>                    
+                <div class="col-sm-3 hidden-sm hidden-xs">
+                    <img class="bot" src="http://s3-us-west-2.amazonaws.com/ona15bot/static/img/ONA15Bot.png" />
+                </div>
+                <div class="col-md-9">
+                    <h1><img class="bot2 hidden-lg hidden-md" src="http://s3-us-west-2.amazonaws.com/ona15bot/static/img/ONA15Bot.png" />#ONA15Bot</h1>
+                    <p>Welcome to our sensor experiment! This page is for the <a href="http://ona15.journalists.org/sessions/algorithmsandarduino/">algorithms and Arduino session</a> at ONA15. We're here to demonstrate some basics on using sensors, electronics and computer programming together in the service of journalism. Check out our <a href="https://twitter.com/ONA15Bot">Twitter</a> and for an explanation of the code and electronics check out our <a href="https://github.com/anthonyjpesce/ona15-arduino-server">GitHub</a>.</p>                    
                 </div>
             </div>
         </div>
