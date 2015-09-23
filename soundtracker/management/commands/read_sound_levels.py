@@ -30,7 +30,8 @@ class Command(BaseCommand):
                 tweets = [
                     "Things are really going off in the " + location + "! " + name + " picked up a reading of " + str(peak_voltage) + " volts. #ONA15Bot",
                     location + " must be turned up to 11. " + name + " just recorded " + str(peak_voltage) + " volts. #ONA15Bot",
-                    location + " just hit " + str(peak_voltage) + " on the #ONA15Bot voltage meter. Turn down for what!"
+                    location + " just hit " + str(peak_voltage) + " on the #ONA15Bot voltage meter. Turn down for what!",
+                    "I went to #ONA15 and all I got was this splitting headache. Audio sensor reads " + str(peak_voltage) + " in the " + location + " #ONA15Bot"
                 ]
                 tweet = tweets[random.randrange(0, len(tweets))]
 
