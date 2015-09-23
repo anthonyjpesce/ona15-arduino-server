@@ -22,7 +22,7 @@ TEMPLATE_LOADERS = (
     )),
 )
 
-STATIC_URL = ''
+STATIC_URL = "http://s3-us-west-2.amazonaws.com/ona15bot/static/"
 WSGI_APPLICATION = 'project.wsgi_prod.application'
 ALLOWED_HOSTS = ('*',)
 
