@@ -9,7 +9,7 @@ def createserver(
     region='us-west-2',
     ami='ami-bd471c8d',
     key_name='datadesk.march.2015',
-    instance_type='m3.medium',
+    instance_type='m3.large',
     block_gb_size=10,
     volume_type='gp2',
     subnet_id='subnet-3e349e49',

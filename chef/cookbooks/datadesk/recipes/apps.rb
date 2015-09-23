@@ -72,6 +72,14 @@ node[:apps].each do |app|
       action :sync
     end
     
+    # hackey hack hack don't do this.
+    cookbook_file "/apps/#{app[:name]}/repo/project/settings_private.py" do
+      source "soundtracker/settings_private.py"
+      mode 0644
+      owner node[:apps_user]
+      group node[:apps_group]
+    end
+
     # Install the virtualenv requirements
     script "Install Requirements" do
       interpreter "bash"
@@ -95,7 +103,7 @@ node[:apps].each do |app|
       interpreter "bash"
       user "postgres"
       code <<-EOH
-        createdb -T template_postgis #{app[:db_name]} -E UTF8 -O #{app[:db_user]}
+        createdb #{app[:db_name]} -E UTF8 -O #{app[:db_user]}
       EOH
       ignore_failure true
     end
