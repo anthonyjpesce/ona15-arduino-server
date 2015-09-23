@@ -1,4 +1,5 @@
 import json
+import logging
 import datetime
 from django.utils import timezone
 from django.http import HttpResponse
@@ -7,6 +8,8 @@ from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
 
 from django.shortcuts import get_object_or_404
+
+logger = logging.getLogger(__name__)
 
 
 @csrf_exempt

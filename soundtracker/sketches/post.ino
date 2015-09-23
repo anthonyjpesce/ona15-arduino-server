@@ -94,8 +94,6 @@ void loop() {
 
     peakToPeak = signalMax - signalMin;  // max - min = peak-peak amplitude
     double volts = (peakToPeak * 3.3) / 1024;  // convert to volts
-    Serial.println(peakToPeak);
-
 
     Serial.print(F("OK\r\nConnecting to server..."));
     t = millis();
