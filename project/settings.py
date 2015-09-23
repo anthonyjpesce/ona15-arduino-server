@@ -16,7 +16,7 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-STATIC_URL = "https://s3-us-west-2.amazonaws.com/ona15bot/static/"
+STATIC_URL = "http://s3-us-west-2.amazonaws.com/ona15bot/static/"
 
 # Media and static files
 MEDIA_ROOT = os.path.join(BASE_DIR, '.media')
