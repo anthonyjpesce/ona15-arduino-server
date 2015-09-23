@@ -75,7 +75,7 @@ $ python manage.py loadtestdata
 Run the test server for the first time.
 
 ```bash
-$ fab rs
+$ python manage.py runserver
 ```
 
 Check out the page at [localhost:8000](http://localhost:8000)
