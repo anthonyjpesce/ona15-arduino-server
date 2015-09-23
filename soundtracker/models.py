@@ -69,3 +69,5 @@ class Signal(models.Model):
         if not self.timestamp:
             self.timestamp = timezone.localtime(timezone.now())
             self.save()
+        else:
+            self.save()
