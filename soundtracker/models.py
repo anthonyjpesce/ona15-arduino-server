@@ -65,6 +65,7 @@ class Signal(models.Model):
     def __unicode__(self):
         return "Robot %s: %s" % (self.robot.id, str(self.timestamp))
 
-    def save():
+    def save(self, *args, **kwargs):
         if not self.timestamp:
-            timestamp = timezone.localtime(timezone.now())
+            self.timestamp = timezone.localtime(timezone.now())
+        super(Signal, self).save(*args, **kwargs)

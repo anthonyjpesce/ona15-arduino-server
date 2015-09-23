@@ -7,7 +7,7 @@
 
 At ONA15 we're bringing together the two with, what we hope, can be a straightforward example for journalists who are curious about the intersection of electronics, programming and reporting. With under $100 in equipment you can build a simple audio sensor that transmits to a server, then processes and stores the data, and runs a simple statistical analysis that powers a twitter "robot."
 
-This readme covers the installation and setup of the server component. For a walkthrough of the electronics portion, including equipment and code for the Arduino, check out our wiki.
+This readme covers the installation and setup of the server component. For a walkthrough of the electronics portion, including equipment and code for the Arduino, [check out our wiki](https://github.com/anthonyjpesce/ona15-arduino-server/wiki).
 
 Getting started
 ---------------

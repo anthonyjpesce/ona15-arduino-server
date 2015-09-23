@@ -5,7 +5,6 @@ from .cook import cook
 from .createserver import createserver
 from .deploy import deploy
 from .installchef import installchef
-from .load import load
 from .makesecret import makesecret
 from .manage import manage
 from .migrate import migrate

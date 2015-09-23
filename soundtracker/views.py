@@ -1,4 +1,5 @@
 import json
+import logging
 import datetime
 from django.utils import timezone
 from django.http import HttpResponse
@@ -7,6 +8,8 @@ from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
 
 from django.shortcuts import get_object_or_404
+
+logger = logging.getLogger(__name__)
 
 
 @csrf_exempt
@@ -22,12 +25,15 @@ def signal_submit(request):
     # Grab the data we want from the request
     robot_id = request.REQUEST.get('robot_id', None)
     voltage = request.REQUEST.get('volt', None)
+    logger.debug("Signal recieved: robot_id:%s\tvoltage:%s" % (robot_id, voltage))
 
     # Return a 400 response for a malformed request
     if not robot_id or not voltage:
         return HttpResponse(status=400)
 
-    robot = get_object_or_404(Robot, pk=robot_id)
+    robot = get_object_or_404(Robot, id=robot_id)
+
+    logger.debug("Adding signal to %s" % robot)
 
     # Add our reading to the database
     Signal.objects.create(
