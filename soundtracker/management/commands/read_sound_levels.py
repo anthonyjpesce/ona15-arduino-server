@@ -1,4 +1,5 @@
 import logging
+import random
 import twitter
 from django.conf import settings
 from soundtracker.models import Robot
@@ -26,7 +27,13 @@ class Command(BaseCommand):
 
             if peak_voltage:
                 # Tweet here
-                tweet = "Things are really going off in the " + location + "! " + name + " picked up a reading of " + str(peak_voltage) + " volts."
+                tweets = [
+                    "Things are really going off in the " + location + "! " + name + " picked up a reading of " + str(peak_voltage) + " volts. #ONA15Bot",
+                    location + " must be turned up to 11. " + name + " just recorded " + str(peak_voltage) + " volts. #ONA15Bot",
+                    location + " just hit " + str(peak_voltage) + " on the #ONA15Bot voltage meter. Turn down for what!"
+                ]
+                tweet = tweets[random.randrange(0, len(tweets))]
+
                 logger.debug(tweet)
                 api.PostUpdate(tweet)
             else:
