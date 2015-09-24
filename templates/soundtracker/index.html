@@ -295,7 +295,7 @@
         }
 
         function getChartJson(id, update) {
-            var cacheBreaker = '';//'?' + Math.floor(Math.random() * 100000)
+            var cacheBreaker = '?' + Math.floor(Math.random() * 100000);
             d3.json("/data/" + id + "/signals.json" + cacheBreaker, function(error, json) {
                 if(!error) {
                     var data = json;
