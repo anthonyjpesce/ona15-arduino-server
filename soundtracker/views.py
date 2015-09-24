@@ -33,7 +33,7 @@ def signal_submit(request):
 
     robot = get_object_or_404(Robot, id=robot_id)
 
-    logger.debug("Adding signal to %s" % robot)
+    # logger.debug("Adding signal to %s" % robot)
 
     # Add our reading to the database
     Signal.objects.create(
