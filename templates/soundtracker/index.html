@@ -90,7 +90,7 @@
             winHeight = $(window).height(),
             margin = {top:10, right:20, bottom:30, left:50},
             parseDate = d3.time.format("%Y-%m-%d %H:%M:%S").parse,
-            updateInterval = 3000,
+            updateInterval = 10000,
             isSmallScreen = (winWidth < 980) ? true : false;
 
         function drawChart(id, data, update) {
@@ -295,7 +295,7 @@
         }
 
         function getChartJson(id, update) {
-            var cacheBreaker = '?' + Math.floor(Math.random() * 100000)
+            var cacheBreaker = '';//'?' + Math.floor(Math.random() * 100000)
             d3.json("/data/" + id + "/signals.json" + cacheBreaker, function(error, json) {
                 if(!error) {
                     var data = json;
