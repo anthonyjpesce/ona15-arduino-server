@@ -13,10 +13,10 @@ class Robot(models.Model):
         """
         Find the standard deviation of the past 10 minutes.
         Send out a tweet if there are any signals greater than two standard deviations
-        in the past 30 seconds.
+        in the past 10 seconds.
         """
         ten_minutes = timezone.localtime(timezone.now()) - datetime.timedelta(minutes=10)
-        thirty_seconds = timezone.localtime(timezone.now()) - datetime.timedelta(seconds=30)
+        ten_seconds = timezone.localtime(timezone.now()) - datetime.timedelta(seconds=10)
         signals_past_ten_min = self.signal_set.filter(
                 timestamp__lt=timezone.localtime(timezone.now()),
                 timestamp__gte=ten_minutes
@@ -25,13 +25,13 @@ class Robot(models.Model):
         avg = calculate.mean(voltages)
         std_dev = calculate.standard_deviation(voltages)
         twice_std_dev = (std_dev * 2) + avg
-        signals_past_30_secs = signals_past_ten_min.filter(timestamp__gte=thirty_seconds, voltage__gte=twice_std_dev)
+        signals_past_10_secs = signals_past_ten_min.filter(timestamp__gte=ten_seconds, voltage__gte=twice_std_dev)
 
         # return the voltage of the highest signal if there has been a spike
         # Or return False
-        if signals_past_30_secs.count() > 0:
-            signals_past_30_secs = list(signals_past_30_secs.values_list('voltage', flat=True).order_by('-voltage'))
-            return signals_past_30_secs[0]
+        if signals_past_10_secs.count() > 0:
+            signals_past_10_secs = list(signals_past_10_secs.values_list('voltage', flat=True).order_by('-voltage'))
+            return signals_past_10_secs[0]
         else:
             return False
 
