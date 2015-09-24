@@ -25,7 +25,7 @@ def signal_submit(request):
     # Grab the data we want from the request
     robot_id = request.REQUEST.get('robot_id', None)
     voltage = request.REQUEST.get('volt', None)
-    logger.debug("Signal recieved: robot_id:%s\tvoltage: %s" % (robot_id, voltage))
+    # logger.debug("Signal recieved: robot_id:%s\tvoltage: %s" % (robot_id, voltage))
 
     # Return a 400 response for a malformed request
     if not robot_id or not voltage:
@@ -38,7 +38,7 @@ def signal_submit(request):
     # Add our reading to the database
     Signal.objects.create(
         robot=robot,
-        voltage=round(voltage, 2),
+        voltage=voltage,
     )
 
     # We're good, return a 200 response
