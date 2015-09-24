@@ -1,7 +1,10 @@
 import calculate
 import datetime
+import logging
 from django.db import models
 from django.utils import timezone
+
+logger = logging.getLogger(__name__)
 
 
 class Robot(models.Model):
@@ -68,4 +71,5 @@ class Signal(models.Model):
     def save(self, *args, **kwargs):
         if not self.timestamp:
             self.timestamp = timezone.localtime(timezone.now())
+        logger.debug("Saving signal %s %s volts" % (self.robot, self.voltage))
         super(Signal, self).save(*args, **kwargs)
