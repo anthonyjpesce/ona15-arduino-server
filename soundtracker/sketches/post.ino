@@ -17,8 +17,8 @@ Adafruit_CC3000 cc3000 = Adafruit_CC3000(
     SPI_CLOCK_DIVIDER
 );
 
-#define WLAN_SSID       "" // wifi network name
-#define WLAN_PASS       "" // wifi network password
+#define WLAN_SSID       "_ONA15" // wifi network name
+#define WLAN_PASS       "onlinenews" // wifi network password
 // Security can be WLAN_SEC_UNSEC, WLAN_SEC_WEP, WLAN_SEC_WPA or WLAN_SEC_WPA2
 #define WLAN_SECURITY   WLAN_SEC_WPA2
 
