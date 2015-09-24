@@ -114,7 +114,7 @@ void loop() {
      client.println("Connection: close");
      client.println("Content-Type: application/x-www-form-urlencoded;charset=utf-8");
      client.print("Content-Length: ");
-     client.println(postdata.length() + 3);
+     client.println(postdata.length() + 4);
      client.println();
      client.print(postdata);
      client.print(volts);
