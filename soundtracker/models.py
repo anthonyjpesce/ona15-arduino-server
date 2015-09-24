@@ -24,17 +24,20 @@ class Robot(models.Model):
                 timestamp__lt=timezone.localtime(timezone.now()),
                 timestamp__gte=ten_minutes
             )
-        voltages = list(signals_past_ten_min.values_list('voltage', flat=True).order_by('voltage'))
-        avg = calculate.mean(voltages)
-        std_dev = calculate.standard_deviation(voltages)
-        twice_std_dev = (std_dev * 2) + avg
-        signals_past_10_secs = signals_past_ten_min.filter(timestamp__gte=ten_seconds, voltage__gte=twice_std_dev)
+        if signals_past_ten_min.count > 0:
+            voltages = list(signals_past_ten_min.values_list('voltage', flat=True).order_by('voltage'))
+            avg = calculate.mean(voltages)
+            std_dev = calculate.standard_deviation(voltages)
+            twice_std_dev = (std_dev * 2) + avg
+            signals_past_10_secs = signals_past_ten_min.filter(timestamp__gte=ten_seconds, voltage__gte=twice_std_dev)
 
-        # return the voltage of the highest signal if there has been a spike
-        # Or return False
-        if signals_past_10_secs.count() > 0:
-            signals_past_10_secs = list(signals_past_10_secs.values_list('voltage', flat=True).order_by('-voltage'))
-            return signals_past_10_secs[0]
+            # return the voltage of the highest signal if there has been a spike
+            # Or return False
+            if signals_past_10_secs.count() > 0:
+                signals_past_10_secs = list(signals_past_10_secs.values_list('voltage', flat=True).order_by('-voltage'))
+                return signals_past_10_secs[0]
+            else:
+                return False
         else:
             return False
 

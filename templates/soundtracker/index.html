@@ -299,6 +299,7 @@
             d3.json("/data/" + id + "/signals.json" + cacheBreaker, function(error, json) {
                 if(!error) {
                     var data = json;
+                    
                     if (data.length > 0) {
                         data.forEach(function(d){
                             d.ts = parseDate(d.ts);
