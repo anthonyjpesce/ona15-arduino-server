@@ -50,20 +50,13 @@ sub vcl_hash {
 
 # Taken from: https://www.varnish-software.com/blog/grace-varnish-4-stale-while-revalidate-semantics-varnish
 sub vcl_hit {
-    if (obj.ttl >= 0s) {
+    if (obj.ttl > 0s) {
         # normal hit
         return (deliver);
     }
     # We have no fresh fish. Lets look at the stale ones.
     if (std.healthy(req.backend_hint)) {
-        # Backend is healthy. Limit age to 10s.
-        if (obj.ttl + 10s > 0s) {
-            set req.http.grace = "normal(limited)";
-            return (deliver);
-        } else {
-        # No candidate for grace. Fetch a fresh object.
-            return(fetch);
-        }
+        return(fetch);
     } else {
         # backend is sick - use full grace
         if (obj.ttl + obj.grace > 0s) {
@@ -142,7 +135,7 @@ sub vcl_deliver {
 sub vcl_backend_response {
     # For grace mode. This is how long Varnish will keep objects in its cache
     # after their TTL has expired.
-    set beresp.grace = 1h;
+    # set beresp.grace = 1h;
 
     # Get the response. Set the cache lifetime.
     set beresp.ttl = <%= @varnish_ttl %>;
